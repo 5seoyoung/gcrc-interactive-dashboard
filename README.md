@@ -60,8 +60,8 @@ GCRC(Global Climate Risk Center)는 글로벌 기후 위험 데이터를 실시�
 
 ## 🧭 아키텍처 개요(Flow)
 
-```mermaid
-sequenceDiagram
+```flowchart LR
+  %% ===== Client =====
   subgraph Client[Browser App]
     A[Dashboard] --> B[Data Explorer]
     A --> C[Alerts Feed]
@@ -70,6 +70,7 @@ sequenceDiagram
     F[Data Submit] --> A
   end
 
+  %% ===== API =====
   subgraph API[Mock API (Node.js/FastAPI)]
     G[/GET /api/risk-map/]
     H[/GET /api/alerts/]
@@ -79,11 +80,18 @@ sequenceDiagram
     L[/POST /api/verify-chain/]
   end
 
+  %% ===== Chain =====
   subgraph Chain[Blockchain Testnet]
     M[(Tx: data hash)]
   end
 
-  Client <---> API
+  %% ===== Interactions =====
+  A <--> G
+  A <--> H
+  B <--> I
+  F --> J
+  A <--> K
+
   J --> L --> M
 ```
 
