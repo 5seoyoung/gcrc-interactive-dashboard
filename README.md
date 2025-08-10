@@ -61,7 +61,7 @@ GCRC(Global Climate Risk Center)는 글로벌 기후 위험 데이터를 실시�
 ## 🧭 아키텍처 개요(Flow)
 
 ```mermaid
-flowchart LR
+sequenceDiagram
   subgraph Client[Browser App]
     A[Dashboard] --> B[Data Explorer]
     A --> C[Alerts Feed]
@@ -172,9 +172,3 @@ npm run dev   # .env 필요
 │  ├─ alerts.json
 │  └─ partners.json
 └─ README.md
-```
-
-
-
-필요하면 \*\*배지(빌드/라이선스/PRs Welcome)\*\*나 **한영 병기**도 추가해줄 수 있어.
-레포 이름은 개인적으로 `gcrc-live-platform` 추천!
