@@ -1,0 +1,1292 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Global Climate Response Chain (GCRC)</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #ffffff;
+            color: #1a202c;
+            line-height: 1.6;
+        }
+
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid #e2e8f0;
+            padding: 1rem 2rem;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #2563eb 0%, #10b981 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+        }
+
+        .logo::before {
+            content: "🌍";
+            font-size: 2rem;
+            -webkit-text-fill-color: initial;
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-item {
+            color: #64748b;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+            position: relative;
+            cursor: pointer;
+            padding: 0.5rem 0;
+        }
+
+        .nav-item:hover, .nav-item.active {
+            color: #2563eb;
+        }
+
+        .nav-item::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #2563eb;
+            transition: width 0.3s;
+        }
+
+        .nav-item:hover::after, .nav-item.active::after {
+            width: 100%;
+        }
+
+        .login-btn {
+            background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+        }
+
+        .login-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(37, 99, 235, 0.3);
+        }
+
+        .main-container {
+            padding-top: 80px;
+            min-height: 100vh;
+        }
+
+        .page {
+            display: none;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Dashboard Page Styles */
+        .hero-section {
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            padding: 4rem 2rem 2rem;
+            text-align: center;
+        }
+
+        .hero-title {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #1e293b 0%, #475569 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-subtitle {
+            font-size: 1.3rem;
+            color: #64748b;
+            margin-bottom: 1rem;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .tech-stack {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .tech-badge {
+            background: white;
+            border: 1px solid #e2e8f0;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #475569;
+        }
+
+        .hero-stats {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #2563eb;
+            display: block;
+        }
+
+        .stat-label {
+            color: #64748b;
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+        }
+
+        .dashboard-container {
+            padding: 0 2rem 4rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 1fr 450px;
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .map-section {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 4px 25px rgba(0, 0, 0, 0.08);
+            border: 1px solid #f1f5f9;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .world-map-container {
+            position: relative;
+            width: 100%;
+            height: 500px;
+            background: #f8fafc;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 2px solid #e2e8f0;
+        }
+
+        .world-map {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(180deg, #e0f2fe 0%, #b3e5fc 50%, #81d4fa 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .world-map::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: url('data:image/svg+xml;charset=utf-8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 400"><rect width="800" height="400" fill="%23f8fafc"/><g fill="%23d1fae5" stroke="%23a7f3d0" stroke-width="1"><path d="M80 50h120v140h-50v30h-70z"/><path d="M140 220h60v150h-60z"/><path d="M320 40h80v100h-80z"/><path d="M320 160h80v180h-80z"/><path d="M450 30h280v200h-280z"/><path d="M680 280h120v80h-120z"/></g></svg>');
+            background-size: cover;
+            background-position: center;
+            opacity: 0.8;
+        }
+
+        .risk-marker {
+            position: absolute;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: bold;
+            color: white;
+            transition: all 0.3s;
+            animation: pulse 2s infinite;
+            border: 4px solid white;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            z-index: 10;
+        }
+
+        .risk-marker:hover {
+            transform: scale(1.3);
+            z-index: 20;
+            animation: none;
+        }
+
+        .jakarta { background: #dc2626; top: 58%; left: 72%; }
+        .california { background: #ea580c; top: 45%; left: 8%; }
+        .sydney { background: #ca8a04; top: 82%; left: 85%; }
+        .bangladesh { background: #dc2626; top: 48%; left: 68%; }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        /* Data Explorer Page Styles */
+        .data-explorer-page {
+            padding: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .filters-section {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 25px rgba(0, 0, 0, 0.08);
+        }
+
+        .filters-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.5rem;
+        }
+
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .filter-group label {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #1e293b;
+        }
+
+        .filter-group select, .filter-group input {
+            padding: 0.75rem;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            background: white;
+            color: #1e293b;
+        }
+
+        .charts-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+        }
+
+        .chart-card {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 4px 25px rgba(0, 0, 0, 0.08);
+        }
+
+        .chart {
+            width: 100%;
+            height: 300px;
+            background: #f8fafc;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            margin-top: 1rem;
+        }
+
+        .chart-line {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            width: calc(100% - 40px);
+            height: 200px;
+            background: linear-gradient(45deg, #2563eb, #10b981, #f59e0b);
+            clip-path: polygon(0% 80%, 10% 60%, 25% 70%, 40% 40%, 55% 50%, 70% 20%, 85% 30%, 100% 10%, 100% 100%, 0% 100%);
+        }
+
+        /* API Documentation Page Styles */
+        .api-page {
+            padding: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .api-section {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 25px rgba(0, 0, 0, 0.08);
+        }
+
+        .code-block {
+            background: #1e293b;
+            color: #e2e8f0;
+            padding: 1.5rem;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            margin: 1rem 0;
+            overflow-x: auto;
+        }
+
+        .endpoint {
+            background: #f1f5f9;
+            padding: 1rem;
+            border-radius: 8px;
+            border-left: 4px solid #2563eb;
+            margin: 1rem 0;
+        }
+
+        /* Data Upload Page Styles */
+        .upload-page {
+            padding: 2rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .upload-form {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 4px 25px rgba(0, 0, 0, 0.08);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #1e293b;
+        }
+
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            padding: 1rem;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            background: white;
+            color: #1e293b;
+        }
+
+        .upload-area {
+            border: 2px dashed #e2e8f0;
+            border-radius: 8px;
+            padding: 3rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .upload-area:hover {
+            border-color: #2563eb;
+            background: #f8fafc;
+        }
+
+        /* Partnership Page Styles */
+        .partnership-page {
+            padding: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .partners-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .partner-card {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 4px 25px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s;
+        }
+
+        .partner-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .partner-logo {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+        }
+
+        .submit-btn, .action-btn {
+            background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+            color: white;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 1rem;
+        }
+
+        .submit-btn:hover, .action-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(37, 99, 235, 0.3);
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .dashboard-grid, .filters-grid, .charts-grid, .partners-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .hero-stats {
+                flex-direction: column;
+                gap: 1rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-menu {
+                display: none;
+            }
+            
+            .hero-title {
+                font-size: 2.5rem;
+            }
+            
+            .tech-stack {
+                gap: 0.5rem;
+            }
+        }
+
+        /* Sidebar styles for dashboard */
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .risk-panel, .alerts-panel {
+            background: white;
+            border-radius: 16px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 25px rgba(0, 0, 0, 0.08);
+            border: 1px solid #f1f5f9;
+        }
+
+        .risk-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            margin: 0.5rem 0;
+            background: #f8fafc;
+            border-radius: 8px;
+            border-left: 4px solid #dc2626;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .risk-item:hover {
+            transform: translateX(4px);
+        }
+
+        .alert-item {
+            padding: 1rem;
+            margin: 0.5rem 0;
+            background: #fef2f2;
+            border-radius: 8px;
+            border-left: 4px solid #ef4444;
+        }
+
+        .floating-notification {
+            position: fixed;
+            top: 100px;
+            right: 20px;
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-left: 4px solid #10b981;
+            padding: 1rem 1.5rem;
+            border-radius: 12px;
+            color: #1e293b;
+            font-weight: 600;
+            transform: translateX(400px);
+            transition: transform 0.5s ease;
+            z-index: 1001;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+            max-width: 400px;
+        }
+
+        .floating-notification.show {
+            transform: translateX(0);
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+
+        .data-table th, .data-table td {
+            padding: 0.75rem;
+            text-align: left;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .data-table th {
+            background: #f8fafc;
+            font-weight: 600;
+        }
+
+        .status-badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .status-active {
+            background: #dcfce7;
+            color: #16a34a;
+        }
+
+        .status-warning {
+            background: #fef3c7;
+            color: #d97706;
+        }
+
+        .status-critical {
+            background: #fecaca;
+            color: #dc2626;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="logo" onclick="showPage('dashboard')">GCRC</div>
+        <nav class="nav-menu">
+            <span class="nav-item active" onclick="showPage('dashboard')">실시간 대시보드</span>
+            <span class="nav-item" onclick="showPage('data-explorer')">데이터 탐색</span>
+            <span class="nav-item" onclick="showPage('data-upload')">데이터 제공</span>
+            <span class="nav-item" onclick="showPage('api-docs')">API 문서</span>
+            <span class="nav-item" onclick="showPage('partnership')">파트너십</span>
+            <button class="login-btn">로그인</button>
+        </nav>
+    </header>
+
+    <main class="main-container">
+        <!-- Dashboard Page -->
+        <div id="dashboard" class="page active">
+            <section class="hero-section">
+                <h1 class="hero-title">Global Climate Response Chain</h1>
+                <p class="hero-subtitle">
+                    블록체인 기반 실시간 기후 데이터 표준화 플랫폼으로 전 세계가 함께 기후 위기에 대응합니다.<br>
+                    위성 데이터 + IoT 센서 + AI 분석 + 블록체인 인증의 완벽한 통합 솔루션
+                </p>
+                
+                <div class="tech-stack">
+                    <span class="tech-badge">🛰️ 위성 데이터</span>
+                    <span class="tech-badge">🌐 IoT 센서</span>
+                    <span class="tech-badge">🤖 AI 분석</span>
+                    <span class="tech-badge">⛓️ 블록체인</span>
+                    <span class="tech-badge">📊 실시간 처리</span>
+                </div>
+
+                <div class="hero-stats">
+                    <div class="stat-item">
+                        <span class="stat-number">195</span>
+                        <span class="stat-label">연결된 국가</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">15,847</span>
+                        <span class="stat-label">활성 센서</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">2.4M</span>
+                        <span class="stat-label">일일 데이터 포인트</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">99.97%</span>
+                        <span class="stat-label">데이터 정확도</span>
+                    </div>
+                </div>
+            </section>
+
+            <section class="dashboard-container">
+                <div class="dashboard-grid">
+                    <div class="map-section">
+                        <h2 class="section-title">🌍 실시간 글로벌 기후 위험 지도</h2>
+                        <div class="world-map-container">
+                            <div class="world-map">
+                                <div class="risk-marker jakarta" data-tooltip="자카르타, 인도네시아 - 홍수 위험 94%"></div>
+                                <div class="risk-marker california" data-tooltip="캘리포니아, 미국 - 산불 위험 83%"></div>
+                                <div class="risk-marker sydney" data-tooltip="시드니, 호주 - 폭염 위험 45%"></div>
+                                <div class="risk-marker bangladesh" data-tooltip="다카, 방글라데시 - 몬순 홍수 91%"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="sidebar">
+                        <div class="risk-panel">
+                            <h3 class="section-title">🚨 위험도 Top 5 지역</h3>
+                            <div class="risk-item">
+                                <div>
+                                    <strong>자카르타, 인도네시아</strong><br>
+                                    <small>홍수 위험</small>
+                                </div>
+                                <div style="font-weight: bold; color: #dc2626;">94%</div>
+                            </div>
+                            <div class="risk-item">
+                                <div>
+                                    <strong>다카, 방글라데시</strong><br>
+                                    <small>몬순 홍수</small>
+                                </div>
+                                <div style="font-weight: bold; color: #dc2626;">91%</div>
+                            </div>
+                            <div class="risk-item">
+                                <div>
+                                    <strong>캘리포니아, 미국</strong><br>
+                                    <small>산불 위험</small>
+                                </div>
+                                <div style="font-weight: bold; color: #ea580c;">83%</div>
+                            </div>
+                        </div>
+
+                        <div class="alerts-panel">
+                            <h3 class="section-title">📢 실시간 경보</h3>
+                            <div class="alert-item">
+                                <strong>5분 전:</strong> 호주 NSW 산불 경보 발령
+                            </div>
+                            <div class="alert-item">
+                                <strong>18분 전:</strong> 일본 오사카 폭우 경보
+                            </div>
+                            <div class="alert-item">
+                                <strong>32분 전:</strong> 인도네시아 자카르타 홍수 위험
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Data Explorer Page -->
+        <div id="data-explorer" class="page">
+            <div class="data-explorer-page">
+                <h1 class="section-title">📊 기후 데이터 탐색 & 분석</h1>
+                
+                <div class="filters-section">
+                    <h3 style="margin-bottom: 1rem;">🔍 데이터 필터</h3>
+                    <div class="filters-grid">
+                        <div class="filter-group">
+                            <label>국가/지역</label>
+                            <select>
+                                <option>전 세계</option>
+                                <option>한국</option>
+                                <option>일본</option>
+                                <option>미국</option>
+                                <option>인도네시아</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <label>데이터 유형</label>
+                            <select>
+                                <option>온도</option>
+                                <option>강수량</option>
+                                <option>습도</option>
+                                <option>풍속</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <label>시작 날짜</label>
+                            <input type="date" value="2025-08-01">
+                        </div>
+                        <div class="filter-group">
+                            <label>종료 날짜</label>
+                            <input type="date" value="2025-08-10">
+                        </div>
+                    </div>
+                    <button class="action-btn">📈 데이터 분석 실행</button>
+                </div>
+
+                <div class="charts-grid">
+                    <div class="chart-card">
+                        <h3>🌡️ 온도 변화 추이</h3>
+                        <div class="chart">
+                            <div class="chart-line"></div>
+                        </div>
+                        <p><strong>데이터 소스:</strong> 위성 + IoT 센서 (15,847개)</p>
+                    </div>
+                    
+                    <div class="chart-card">
+                        <h3>🌧️ 강수량 분포</h3>
+                        <div class="chart">
+                            <div class="chart-line" style="background: linear-gradient(45deg, #3b82f6, #06b6d4, #10b981);"></div>
+                        </div>
+                        <p><strong>데이터 소스:</strong> 기상레이더 + 지상 관측소</p>
+                    </div>
+                </div>
+
+                <div class="api-section">
+                    <h3>📥 데이터 다운로드 & API 접근</h3>
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>데이터셋</th>
+                                <th>업데이트</th>
+                                <th>크기</th>
+                                <th>형식</th>
+                                <th>다운로드</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>글로벌 온도 데이터</td>
+                                <td>2분 전</td>
+                                <td>245MB</td>
+                                <td>JSON, CSV</td>
+                                <td><button class="action-btn" style="padding: 0.5rem 1rem; margin: 0;">⬇️ 다운로드</button></td>
+                            </tr>
+                            <tr>
+                                <td>강수량 시계열</td>
+                                <td>5분 전</td>
+                                <td>187MB</td>
+                                <td>JSON, CSV</td>
+                                <td><button class="action-btn" style="padding: 0.5rem 1rem; margin: 0;">⬇️ 다운로드</button></td>
+                            </tr>
+                            <tr>
+                                <td>재난 위험 지수</td>
+                                <td>1분 전</td>
+                                <td>67MB</td>
+                                <td>JSON, XML</td>
+                                <td><button class="action-btn" style="padding: 0.5rem 1rem; margin: 0;">⬇️ 다운로드</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Data Upload Page -->
+        <div id="data-upload" class="page">
+            <div class="upload-page">
+                <h1 class="section-title">📤 기후 데이터 제공</h1>
+                
+                <div class="upload-form">
+                    <h3 style="margin-bottom: 1.5rem;">🌍 시민 과학자 데이터 업로드</h3>
+                    
+                    <div class="form-group">
+                        <label>📍 위치 정보</label>
+                        <input type="text" placeholder="주소 또는 GPS 좌표를 입력하세요" value="서울시 강남구">
+                    </div>
+
+                    <div class="form-group">
+                        <label>🔥 재난 유형</label>
+                        <select>
+                            <option>홍수</option>
+                            <option>산불</option>
+                            <option>폭염</option>
+                            <option>폭설</option>
+                            <option>태풍</option>
+                            <option>지진</option>
+                            <option>가뭄</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>📷 사진/영상 업로드</label>
+                        <div class="upload-area" onclick="document.getElementById('fileInput').click()">
+                            <p style="font-size: 3rem; margin-bottom: 1rem;">📁</p>
+                            <p>파일을 여기로 드래그하거나 클릭해서 선택하세요</p>
+                            <small>PNG, JPG, MP4 형식 지원 (최대 100MB)</small>
+                        </div>
+                        <input type="file" id="fileInput" style="display: none;" multiple accept="image/*,video/*">
+                    </div>
+
+                    <div class="form-group">
+                        <label>📝 상황 설명</label>
+                        <textarea rows="4" placeholder="현재 상황을 자세히 설명해 주세요..."></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>🌡️ 측정 데이터 (선택사항)</label>
+                        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem;">
+                            <input type="number" placeholder="온도 (°C)">
+                            <input type="number" placeholder="습도 (%)">
+                            <input type="number" placeholder="풍속 (km/h)">
+                            <input type="number" placeholder="강수량 (mm)">
+                        </div>
+                    </div>
+
+                    <button class="submit-btn" onclick="submitReport()">
+                        ⛓️ 블록체인에 기록하기
+                    </button>
+                    
+                    <div style="margin-top: 2rem; padding: 1rem; background: #f0f9ff; border-radius: 8px; border-left: 4px solid #0ea5e9;">
+                        <h4>💡 데이터 제공 혜택</h4>
+                        <ul style="margin-top: 0.5rem; padding-left: 1rem;">
+                            <li>GCRC 토큰 리워드 지급</li>
+                            <li>기후 데이터 기여자 인증서</li>
+                            <li>프리미엄 데이터 접근 권한</li>
+                            <li>글로벌 기후 대응 기여 기록</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- API Documentation Page -->
+        <div id="api-docs" class="page">
+            <div class="api-page">
+                <h1 class="section-title">🔗 GCRC API 문서</h1>
+                
+                <div class="api-section">
+                    <h3>🚀 API 개요</h3>
+                    <p>GCRC API는 RESTful 방식으로 설계되어 전 세계 기후 데이터에 실시간으로 접근할 수 있습니다. 모든 데이터는 블록체인으로 검증되어 신뢰성이 보장됩니다.</p>
+                    
+                    <div class="endpoint">
+                        <strong>Base URL:</strong> https://api.gcrc.global/v1/
+                    </div>
+                </div>
+
+                <div class="api-section">
+                    <h3>🌍 실시간 기후 데이터 API</h3>
+                    
+                    <h4>GET /climate/realtime</h4>
+                    <p>전 세계 실시간 기후 데이터를 조회합니다.</p>
+                    
+                    <div class="code-block">
+curl -X GET "https://api.gcrc.global/v1/climate/realtime" \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json"
+                    </div>
+
+                    <p><strong>응답 예시:</strong></p>
+                    <div class="code-block">
+{
+  "status": "success",
+  "timestamp": "2025-08-10T15:30:00Z",
+  "data": {
+    "global_temperature": 15.2,
+    "co2_level": 421.3,
+    "active_disasters": 47,
+    "regions": [
+      {
+        "location": "Jakarta, Indonesia",
+        "risk_level": 94,
+        "disaster_type": "flood",
+        "population_at_risk": 2100000,
+        "last_update": "2025-08-10T15:27:00Z",
+        "blockchain_hash": "0xA7F9...3E2D"
+      }
+    ]
+  }
+}
+                    </div>
+                </div>
+
+                <div class="api-section">
+                    <h3>📊 위험 지수 분석 API</h3>
+                    
+                    <h4>GET /risk/analysis/{region}</h4>
+                    <p>특정 지역의 상세 위험 분석 데이터를 제공합니다.</p>
+                    
+                    <div class="code-block">
+curl -X GET "https://api.gcrc.global/v1/risk/analysis/jakarta" \
+  -H "Authorization: Bearer YOUR_API_KEY"
+                    </div>
+
+                    <h4>POST /risk/predict</h4>
+                    <p>AI 모델을 사용하여 미래 위험도를 예측합니다.</p>
+                    
+                    <div class="code-block">
+curl -X POST "https://api.gcrc.global/v1/risk/predict" \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "location": {"lat": -6.2088, "lng": 106.8456},
+    "timeframe": "7_days",
+    "parameters": ["temperature", "rainfall", "humidity"]
+  }'
+                    </div>
+                </div>
+
+                <div class="api-section">
+                    <h3>⛓️ 블록체인 검증 API</h3>
+                    
+                    <h4>GET /blockchain/verify/{hash}</h4>
+                    <p>데이터의 블록체인 검증 상태를 확인합니다.</p>
+                    
+                    <div class="code-block">
+curl -X GET "https://api.gcrc.global/v1/blockchain/verify/0xA7F9...3E2D" \
+  -H "Authorization: Bearer YOUR_API_KEY"
+                    </div>
+                </div>
+
+                <div class="api-section">
+                    <h3>🔑 API 키 발급</h3>
+                    <p>GCRC API를 사용하려면 API 키가 필요합니다. 아래 단계를 따라 발급받으세요:</p>
+                    <ol style="margin-left: 1rem; margin-top: 1rem;">
+                        <li>GCRC 개발자 포털에 회원가입</li>
+                        <li>애플리케이션 등록 및 용도 설명</li>
+                        <li>API 키 발급 (무료: 1,000 calls/day, Pro: 100,000 calls/day)</li>
+                        <li>블록체인 지갑 연결 (선택사항)</li>
+                    </ol>
+                    <button class="action-btn" style="margin-top: 1rem;">🔑 API 키 발급받기</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Partnership Page -->
+        <div id="partnership" class="page">
+            <div class="partnership-page">
+                <h1 class="section-title">🤝 글로벌 파트너십</h1>
+                
+                <div class="api-section">
+                    <h3>🌐 국제기구 파트너십</h3>
+                    <p>GCRC는 전 세계 주요 기후 기관 및 국제기구와 협력하여 표준화된 기후 대응 시스템을 구축하고 있습니다.</p>
+                </div>
+
+                <div class="partners-grid">
+                    <div class="partner-card">
+                        <div class="partner-logo">🇺🇳</div>
+                        <h3>United Nations</h3>
+                        <p>UN 기후변화협약(UNFCCC) 공식 데이터 파트너</p>
+                        <span class="status-badge status-active">활성 협력</span>
+                    </div>
+                    
+                    <div class="partner-card">
+                        <div class="partner-logo">🇪🇺</div>
+                        <h3>EU Copernicus</h3>
+                        <p>유럽 우주청 위성 데이터 실시간 연동</p>
+                        <span class="status-badge status-active">활성 협력</span>
+                    </div>
+                    
+                    <div class="partner-card">
+                        <div class="partner-logo">🇺🇸</div>
+                        <h3>NASA GISS</h3>
+                        <p>미국 항공우주청 기후 데이터 공유</p>
+                        <span class="status-badge status-active">활성 협력</span>
+                    </div>
+                    
+                    <div class="partner-card">
+                        <div class="partner-logo">🇯🇵</div>
+                        <h3>JMA 기상청</h3>
+                        <p>일본 기상청 태풍 데이터 연동</p>
+                        <span class="status-badge status-active">활성 협력</span>
+                    </div>
+                    
+                    <div class="partner-card">
+                        <div class="partner-logo">🇰🇷</div>
+                        <h3>KMA 기상청</h3>
+                        <p>한국 기상청 실시간 데이터 협력</p>
+                        <span class="status-badge status-warning">협상 중</span>
+                    </div>
+                    
+                    <div class="partner-card">
+                        <div class="partner-logo">🌏</div>
+                        <h3>ASEAN 기후센터</h3>
+                        <p>동남아시아 재난 대응 네트워크</p>
+                        <span class="status-badge status-warning">협상 중</span>
+                    </div>
+                </div>
+
+                <div class="api-section" style="margin-top: 3rem;">
+                    <h3>💼 기업 파트너십 프로그램</h3>
+                    <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 2rem; margin-top: 1rem;">
+                        <div style="background: #f8fafc; padding: 1.5rem; border-radius: 8px;">
+                            <h4>🏭 데이터 제공 파트너</h4>
+                            <ul style="margin-top: 0.5rem; padding-left: 1rem;">
+                                <li>IoT 센서 네트워크 구축</li>
+                                <li>위성 데이터 실시간 제공</li>
+                                <li>AI 모델 학습 데이터 기여</li>
+                                <li>GCRC 토큰 리워드</li>
+                            </ul>
+                        </div>
+                        <div style="background: #f8fafc; padding: 1.5rem; border-radius: 8px;">
+                            <h4>🛠️ 기술 통합 파트너</h4>
+                            <ul style="margin-top: 0.5rem; padding-left: 1rem;">
+                                <li>GCRC API 시스템 통합</li>
+                                <li>블록체인 솔루션 개발</li>
+                                <li>재난 대응 시스템 연동</li>
+                                <li>글로벌 표준 기술 개발</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <button class="action-btn" style="margin-top: 2rem;">🤝 파트너십 신청하기</button>
+                </div>
+
+                <div class="api-section">
+                    <h3>📈 파트너십 현황</h3>
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>파트너</th>
+                                <th>유형</th>
+                                <th>협력 범위</th>
+                                <th>상태</th>
+                                <th>시작일</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>🇺🇳 UN Climate</td>
+                                <td>국제기구</td>
+                                <td>데이터 표준화</td>
+                                <td><span class="status-badge status-active">활성</span></td>
+                                <td>2024.03.15</td>
+                            </tr>
+                            <tr>
+                                <td>🛰️ ESA Sentinel</td>
+                                <td>위성 데이터</td>
+                                <td>실시간 관측</td>
+                                <td><span class="status-badge status-active">활성</span></td>
+                                <td>2024.05.22</td>
+                            </tr>
+                            <tr>
+                                <td>🏢 Microsoft Azure</td>
+                                <td>클라우드</td>
+                                <td>AI 컴퓨팅</td>
+                                <td><span class="status-badge status-active">활성</span></td>
+                                <td>2024.07.10</td>
+                            </tr>
+                            <tr>
+                                <td>⛓️ Polygon Network</td>
+                                <td>블록체인</td>
+                                <td>데이터 검증</td>
+                                <td><span class="status-badge status-warning">테스트</span></td>
+                                <td>2024.08.01</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <div class="floating-notification" id="notification">
+        새로운 기후 위험 데이터가 업데이트되었습니다!
+    </div>
+
+    <script>
+        // 페이지 전환 함수
+        function showPage(pageId) {
+            // 모든 페이지 숨기기
+            const pages = document.querySelectorAll('.page');
+            pages.forEach(page => {
+                page.classList.remove('active');
+            });
+
+            // 모든 네비게이션 아이템에서 active 클래스 제거
+            const navItems = document.querySelectorAll('.nav-item');
+            navItems.forEach(item => {
+                item.classList.remove('active');
+            });
+
+            // 선택된 페이지 보이기
+            document.getElementById(pageId).classList.add('active');
+
+            // 해당 네비게이션 아이템에 active 클래스 추가
+            event.target.classList.add('active');
+
+            // 페이지별 특별 초기화
+            if (pageId === 'data-explorer') {
+                initializeCharts();
+            } else if (pageId === 'dashboard') {
+                initializeDashboard();
+            }
+
+            // 페이지 전환 알림
+            showNotification(`📄 ${getPageTitle(pageId)} 페이지로 이동했습니다`);
+        }
+
+        function getPageTitle(pageId) {
+            const titles = {
+                'dashboard': '실시간 대시보드',
+                'data-explorer': '데이터 탐색',
+                'data-upload': '데이터 제공',
+                'api-docs': 'API 문서',
+                'partnership': '파트너십'
+            };
+            return titles[pageId] || '페이지';
+        }
+
+        // 대시보드 초기화
+        function initializeDashboard() {
+            // 마커 툴팁 이벤트
+            const markers = document.querySelectorAll('.risk-marker');
+            markers.forEach(marker => {
+                marker.addEventListener('click', function() {
+                    const tooltip = this.getAttribute('data-tooltip');
+                    showNotification(`📍 ${tooltip} - 상세 분석 중...`);
+                });
+            });
+        }
+
+        // 차트 초기화
+        function initializeCharts() {
+            // 차트 라인 애니메이션
+            const chartLines = document.querySelectorAll('.chart-line');
+            chartLines.forEach(line => {
+                line.style.animation = 'none';
+                setTimeout(() => {
+                    line.style.animation = 'slideIn 1s ease-out';
+                }, 100);
+            });
+        }
+
+        // 데이터 업로드 제출
+        function submitReport() {
+            showNotification('📤 데이터를 블록체인에 기록 중입니다...');
+            setTimeout(() => {
+                showNotification('✅ 블록체인 기록 완료! 데이터가 전 세계와 공유됩니다.');
+                // 폼 초기화
+                document.querySelector('.upload-form').reset();
+            }, 3000);
+        }
+
+        // 파일 업로드 처리
+        document.addEventListener('DOMContentLoaded', function() {
+            const fileInput = document.getElementById('fileInput');
+            if (fileInput) {
+                fileInput.addEventListener('change', function(e) {
+                    const files = e.target.files;
+                    if (files.length > 0) {
+                        const uploadArea = document.querySelector('.upload-area');
+                        uploadArea.innerHTML = `
+                            <p style="font-size: 3rem; margin-bottom: 1rem;">✅</p>
+                            <p><strong>${files.length}개 파일이 선택되었습니다</strong></p>
+                            <small>${Array.from(files).map(f => f.name).join(', ')}</small>
+                        `;
+                        uploadArea.style.borderColor = '#10b981';
+                        uploadArea.style.background = '#f0fdf4';
+                    }
+                });
+            }
+        });
+
+        // 알림 표시 함수
+        function showNotification(message) {
+            const notification = document.getElementById('notification');
+            notification.textContent = message;
+            notification.classList.add('show');
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 4000);
+        }
+
+        // 실시간 데이터 업데이트 시뮬레이션
+        document.addEventListener('DOMContentLoaded', function() {
+            const realisticMessages = [
+                '🌊 인도양 해수온도 29.8°C - 태풍 발달 조건 형성',
+                '🔥 시베리아 산불 면적 12만 헥타르 돌파',
+                '🌡️ 그린란드 빙하 용해량 일일 60억톤 기록',
+                '💨 제트기류 패턴 변화 - 유럽 한파 예상',
+                '🌧️ 인도 몬순 강도 평년 대비 140% 증가',
+                '❄️ 남극 라센 빙붕 균열 확장 - 20km 진행',
+                '🌪️ 멕시코만 수온 32°C - 허리케인 발달 경고'
+            ];
+
+            // 20초마다 실시간 메시지
+            setInterval(() => {
+                const randomMessage = realisticMessages[Math.floor(Math.random() * realisticMessages.length)];
+                showNotification(randomMessage);
+            }, 20000);
+
+            // 초기 환영 메시지
+            setTimeout(() => {
+                showNotification('🌍 GCRC 플랫폼에 오신 것을 환영합니다! 메뉴를 클릭해서 다양한 기능을 체험해보세요.');
+            }, 2000);
+        });
+
+        // 스크롤 시 헤더 효과
+        window.addEventListener('scroll', () => {
+            const header = document.querySelector('.header');
+            if (window.scrollY > 50) {
+                header.style.background = 'rgba(255, 255, 255, 0.98)';
+                header.style.boxShadow = '0 2px 20px rgba(0, 0, 0, 0.1)';
+            } else {
+                header.style.background = 'rgba(255, 255, 255, 0.95)';
+                header.style.boxShadow = 'none';
+            }
+        });
+
+        // 차트 애니메이션 CSS 추가
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes slideIn {
+                from {
+                    transform: translateX(-100%);
+                    opacity: 0;
+                }
+                to {
+                    transform: translateX(0);
+                    opacity: 1;
+                }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>
