@@ -6,22 +6,6 @@
 **완전한 멀티페이지 실시간 웹 애플리케이션**  
 GCRC(Global Climate Risk Center)는 글로벌 기후 위험 데이터를 실시간 수집·시각화하고, 시민과 기관이 함께 기여할 수 있는 오픈 플랫폼입니다.
 
-좋아, 레포 이름을 더 임팩트 있게 고르고, \*\*플로우(아키텍처/유저 플로우)\*\*까지 담은 README를 새로 짜줄게.
-아래 3개 중 하나 골라 쓰면 돼:
-
-* `gcrc-live-platform` (실시간성+플랫폼 강조, 깔끔)
-* `gcrc-global-response` (글로벌 대응 이미지 강함)
-* `global-climate-risk-center` (풀네임, 검색 친화)
-
-아래는 **README.md 최종안**이야. 그대로 복붙해서 쓰고, `<…>` 표시는 네 값으로 바꿔줘!
-
----
-
-# 🌍 GCRC: Global Climate Risk Center — **Live Platform**
-
-**완전한 멀티페이지 실시간 웹 애플리케이션**
-GCRC(Global Climate Risk Center)는 글로벌 기후 위험 데이터를 실시간 수집·시각화하고, 시민·기관·기업이 함께 기여하는 오픈 협력 플랫폼입니다.
-
 > ⚡ 목적: **데이터 표준화 + 실시간 분석 + 협력 워크플로우**를 한 화면에서
 
 ---
