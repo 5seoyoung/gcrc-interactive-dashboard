@@ -14,6 +14,7 @@
     <!-- Custom Styles -->
     <link rel="stylesheet" href="src/styles/main.css">
     <link rel="stylesheet" href="src/styles/dashboard.css">
+    <link rel="stylesheet" href="src/styles/ai-analysis.css">
     <link rel="stylesheet" href="src/styles/components.css">
     <link rel="stylesheet" href="src/styles/responsive.css">
 </head>
@@ -33,13 +34,16 @@
     <header id="main-header">
         <nav class="navbar">
             <div class="nav-brand">
-                <img src="src/assets/logo.svg" alt="GCRC Logo" class="logo">
+                <span class="logo-emoji">🌍</span>
                 <h1>GCRC</h1>
             </div>
             
             <ul class="nav-menu">
                 <li><a href="#" data-page="dashboard" class="nav-link active">
                     <i class="fas fa-tachometer-alt"></i> 대시보드
+                </a></li>
+                <li><a href="#" data-page="ai-analysis" class="nav-link">
+                    <i class="fas fa-brain"></i> AI 분석
                 </a></li>
                 <li><a href="#" data-page="explorer" class="nav-link">
                     <i class="fas fa-chart-line"></i> 데이터 탐색
@@ -77,6 +81,11 @@
         <!-- Dashboard Page -->
         <div id="dashboard-page" class="page active">
             <!-- 여기에 대시보드 컨텐츠가 동적으로 로드됩니다 -->
+        </div>
+
+        <!-- AI Analysis Page -->
+        <div id="ai-analysis-page" class="page">
+            <!-- 여기에 AI 분석 컨텐츠가 동적으로 로드됩니다 -->
         </div>
 
         <!-- Data Explorer Page -->
@@ -142,6 +151,7 @@
     <script type="module" src="src/components/charts.js"></script>
     <script type="module" src="src/components/upload.js"></script>
     <script type="module" src="src/pages/dashboard.js"></script>
+    <script type="module" src="src/pages/ai-analysis.js"></script>
     <script type="module" src="src/pages/explorer.js"></script>
     <script type="module" src="src/pages/submit.js"></script>
     <script type="module" src="src/pages/api.js"></script>

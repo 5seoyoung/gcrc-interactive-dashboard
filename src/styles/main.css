@@ -146,6 +146,11 @@ body {
   height: 40px;
 }
 
+.logo-emoji {
+  font-size: 2.5rem;
+  margin-right: var(--spacing-xs);
+}
+
 .nav-brand h1 {
   font-size: 1.5rem;
   font-weight: 700;

@@ -11,6 +11,7 @@ import { initExplorer } from './pages/explorer.js';
 import { initSubmit } from './pages/submit.js';
 import { initAPI } from './pages/api.js';
 import { initPartners } from './pages/partners.js';
+import { initAIAnalysis } from './pages/ai-analysis.js';
 
 class GCRCApp {
     constructor() {
@@ -106,7 +107,8 @@ class GCRCApp {
                 initExplorer(),
                 initSubmit(),
                 initAPI(),
-                initPartners()
+                initPartners(),
+                initAIAnalysis()
             ]);
             
             console.log('📄 모든 페이지 초기화 완료');
@@ -159,8 +161,8 @@ class GCRCApp {
             case 'api':
                 window.dispatchEvent(new CustomEvent('api:highlight'));
                 break;
-            case 'partners':
-                window.dispatchEvent(new CustomEvent('partners:refresh'));
+            case 'ai-analysis':
+                window.dispatchEvent(new CustomEvent('ai-analysis:refresh'));
                 break;
         }
     }

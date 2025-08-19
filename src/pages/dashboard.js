@@ -119,11 +119,11 @@ class Dashboard {
                     </div>
                     
                     <div class="stat-card card">
-                        <div class="stat-icon">📊</div>
+                        <div class="stat-icon">🤖</div>
                         <div class="stat-content">
-                            <h3 class="stat-value" id="data-points">--</h3>
-                            <p class="stat-label">실시간 데이터</p>
-                            <div class="stat-change positive">+2.3k</div>
+                            <h3 class="stat-value" id="ai-analysis-score">87%</h3>
+                            <p class="stat-label">AI 분석 정확도</p>
+                            <div class="stat-change positive">+2.3%</div>
                         </div>
                     </div>
                 </div>

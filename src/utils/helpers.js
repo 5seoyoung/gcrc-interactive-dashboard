@@ -179,10 +179,14 @@ function createNotificationElement(message, type) {
     notification.innerHTML = `
         <div class="notification-content">
             <span class="notification-icon">${icon}</span>
-            <span class="notification-message">${message}</span>
-            <button class="notification-close">&times;</button>
+            <span class="notification-message" style="color: #000000 !important;">${message}</span>
+            <button class="notification-close" style="color: #000000 !important;">&times;</button>
         </div>
     `;
+    
+    // 전체 알림 배경도 흰색으로 강제 설정
+    notification.style.backgroundColor = '#ffffff';
+    notification.style.color = '#000000';
     
     // Add close button event
     notification.querySelector('.notification-close').addEventListener('click', () => {

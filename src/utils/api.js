@@ -206,15 +206,24 @@ class APIClient {
             return this.handleSubmitRequest(options.body);
         }
         
-        if (endpoint.includes('/verify-chain')) {
+        if (endpoint.includes('/ai/risk-analysis')) {
             return {
                 success: true,
-                data: {
-                    transactionHash: `0x${Math.random().toString(16).substr(2, 64)}`,
-                    blockNumber: Math.floor(Math.random() * 1000000) + 18000000,
-                    verified: true,
-                    gasUsed: Math.floor(Math.random() * 50000) + 21000
-                }
+                data: this.generateAIRiskData()
+            };
+        }
+
+        if (endpoint.includes('/ai/alert-queue')) {
+            return {
+                success: true,
+                data: this.generateAlertQueue()
+            };
+        }
+
+        if (endpoint.includes('/ai/resource-data')) {
+            return {
+                success: true,
+                data: this.generateResourceData()
             };
         }
         
@@ -291,6 +300,18 @@ class APIClient {
     // Public API methods
     async getRiskMap() {
         return this.request('/risk-map');
+    }
+
+    async getAIRiskAnalysis() {
+        return this.request('/ai/risk-analysis');
+    }
+
+    async getAlertQueue() {
+        return this.request('/ai/alert-queue');
+    }
+
+    async getResourceData() {
+        return this.request('/ai/resource-data');
     }
 
     async getAlerts(limit = 10) {
